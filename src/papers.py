@@ -19,7 +19,7 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
-HEADERS = {"User-Agent": "cant-make-it-up/0.1 (small research script; python-requests)"}
+HEADERS = {"User-Agent": "answer-retrieval-test/0.1 (small research script; python-requests)"}
 API = "https://export.arxiv.org/api/query"
 PAUSE = 3.0  # arXiv asks automated clients for about one request every 3 seconds
 HTML_CACHE = Path(".cache/arxiv_html")

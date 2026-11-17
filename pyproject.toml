@@ -1,5 +1,5 @@
 [project]
-name = "cant-make-it-up"
+name = "answer-retrieval-test"
 version = "0.1.0"
 description = "Do cheap LLMs invent 'exact quotes'? A small test on fresh documents, scored with a substring check."
 requires-python = ">=3.10"

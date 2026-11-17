@@ -1,4 +1,4 @@
-# Can't make it up
+# Answer retrieval test
 
 A small test of answer retrieval: given a document and a question, return the exact passage that answers it.
 
