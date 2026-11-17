@@ -30,8 +30,6 @@ def main() -> None:
         return sum(float(r["cost"]) for _, g in row["parts"] for r in g) / 200 * 1000
 
     combo_right = sum(right(g) for _, g in combo["parts"])
-    share = cost(combo) / cost(haiku)
-    assert 0.30 <= share <= 0.36, share  # the headline says "a third"
 
     fig = plt.figure(figsize=(12, 6.3), dpi=200, facecolor=SURFACE)
     ax = fig.add_axes([0.06, 0.07, 0.88, 0.52])
@@ -40,8 +38,8 @@ def main() -> None:
     ax.set_xlim(0, 200)
     ax.set_ylim(-0.45, 1.75)
 
-    fig.text(0.06, 0.845, f"{combo_right} of 200 correct,", fontsize=50, fontweight="bold", fontfamily="Avenir Next", color=INK, ha="left", va="center")
-    fig.text(0.06, 0.70, "at a third of the cost", fontsize=50, fontweight="bold", fontfamily="Avenir Next", color=INK, ha="left", va="center")
+    for y, line in ((0.845, "Answer retrieval test"), (0.70, "Decider Flash v1.3 w/ Locate")):
+        fig.text(0.06, y, line, fontsize=46, fontweight="bold", fontfamily="Avenir Next", color=INK, ha="left", va="center")
 
     layout = [
         (1, haiku, "Claude Haiku 5.5 alone", lambda company, n: f"{n} correct"),

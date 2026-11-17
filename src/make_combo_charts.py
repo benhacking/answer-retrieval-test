@@ -101,16 +101,20 @@ def clean(ax):
         side.set_visible(False)
 
 
-def mono(text, bold=False):
+TITLE = {"fontsize": 15.5, "fontweight": "bold", "fontfamily": "Arial"}  # Helvetica Neue has no bold here
+TITLE_Y = 0.94  # leaves white space above the title
+
+
+def mono(text, bold=False, title=False):
     """Put every number in the text in a mono font (Menlo), leaving the words alone."""
-    command = "mathsf" if bold else "mathtt"  # main() points these at Menlo bold and Menlo
+    command = "mathbf" if title else "mathsf" if bold else "mathtt"  # main() points these at Menlo bold and Menlo
     def wrap(match):
         inner = match.group().replace("$", r"\$").replace("%", r"\%").replace(",", "{,}")
         return "$\\%s{%s}$" % (command, inner)
     return re.sub(r"\$?\d+(?:[.,]\d+)*%?", wrap, text)
 
 
-def outcomes_chart(rows, path, title, height=5.0, top=0.89, bottom=0.13):
+def outcomes_chart(rows, path, title, height=5.3, top=0.84, bottom=0.125):
     fig, ax = plt.subplots(figsize=(9, height), dpi=200, facecolor=SURFACE)
     for i, row in enumerate(rows):
         y, left, thin = len(rows) - 1 - i, 0, []
@@ -143,15 +147,15 @@ def outcomes_chart(rows, path, title, height=5.0, top=0.89, bottom=0.13):
     ax.set_xticks([0, 50, 100, 150, 200])
     ax.set_xticklabels([mono(str(v)) for v in (0, 50, 100, 150, 200)])
     ax.set_xlabel(mono("Questions (out of 200)"), color=MUTED, fontsize=10)
-    fig.suptitle(mono(title, bold=True),
-                 x=0.035, ha="left", fontsize=13.5, fontweight="bold", color=INK)
+    fig.suptitle(mono(title, title=True),
+                 x=0.035, y=TITLE_Y, ha="left", va="top", color=INK, **TITLE)
     fig.subplots_adjust(left=0.035, right=0.965, top=top, bottom=bottom)
     fig.savefig(path, facecolor=SURFACE)
 
 
 def cost_time_chart(rows):
     flash_cost, flash_seconds = flash_share_of_combo()
-    fig, axes = plt.subplots(1, 2, figsize=(9, 4.6), dpi=200, facecolor=SURFACE)
+    fig, axes = plt.subplots(1, 2, figsize=(9, 4.9), dpi=200, facecolor=SURFACE)
     panels = [
         ("Cost", "cost", 1000 / 200, lambda v: f"${v:.2f}", "US dollars"),
         ("Total time, one question at a time", "seconds", 1000 / 200 / 60, lambda v: f"{v:.0f} min", "Minutes"),
@@ -181,11 +185,11 @@ def cost_time_chart(rows):
         ax.set_ylim(-0.5, len(rows) - 0.15)
         ax.set_xticks([])
         ax.set_title(title, loc="left", fontsize=11, color=MUTED, pad=8)
-    fig.suptitle(mono("Cost and time to answer 1,000 questions", bold=True),
-                 x=0.035, ha="left", fontsize=13.5, fontweight="bold", color=INK)
+    fig.suptitle(mono("Cost and time to answer 1,000 questions", title=True),
+                 x=0.035, y=TITLE_Y, ha="left", va="top", color=INK, **TITLE)
     fig.text(0.035, 0.03, mono("Scaled up from 200 questions. In the combo bar, the green part is Decider Flash's share and the orange part is Haiku's."),
              fontsize=9, color=MUTED)
-    fig.subplots_adjust(left=0.035, right=0.975, top=0.82, bottom=0.1, wspace=0.12)
+    fig.subplots_adjust(left=0.035, right=0.975, top=0.77, bottom=0.095, wspace=0.12)
     fig.savefig("results/charts/cost_time.png", facecolor=SURFACE)
     for name, values in printed.items():
         print(f"{name}: {' | '.join(values)}")
@@ -196,7 +200,7 @@ def length_chart(rows):
     groups = [("5 words or fewer", 0, 5), ("6 to 15 words", 6, 15), ("16 words or more", 16, 10**6)]
     styles = [("Claude Haiku 5.5", ANTHROPIC_ORANGE, "-", "o"), ("Decider v1.3", PERPLEXITY_GREEN, "-", "o"),
               ("Decider Flash v1.3", FLASH_GREEN, "--", "s")]
-    fig, ax = plt.subplots(figsize=(9, 5.0), dpi=200, facecolor=SURFACE)
+    fig, ax = plt.subplots(figsize=(9, 5.3), dpi=200, facecolor=SURFACE)
     sizes = []
     for row, (name, colour, dash, marker) in zip(rows[:3], styles):
         group = row["parts"][0][1]
@@ -229,18 +233,19 @@ def length_chart(rows):
     ax.set_xlabel("Length of the correct answer", color=MUTED, fontsize=10, labelpad=10)
     ax.set_ylabel("Answers found", color=MUTED, fontsize=10)
     fig.suptitle("Longer answers, fewer found by locate",
-                 x=0.035, ha="left", fontsize=13.5, fontweight="bold", color=INK)
-    fig.subplots_adjust(left=0.09, right=0.76, top=0.88, bottom=0.2)
+                 x=0.035, y=TITLE_Y, ha="left", va="top", color=INK, **TITLE)
+    fig.subplots_adjust(left=0.09, right=0.76, top=0.83, bottom=0.19)
     fig.savefig("results/charts/answer_length.png", facecolor=SURFACE)
 
 
 def main() -> None:
     plt.rcParams.update({"font.family": "Helvetica Neue", "font.size": 11,
-                         "mathtext.fontset": "custom", "mathtext.tt": "Menlo", "mathtext.sf": "Menlo:bold"})
+                         "mathtext.fontset": "custom", "mathtext.tt": "Menlo", "mathtext.sf": "Menlo:bold",
+                         "mathtext.bf": "DejaVu Sans Mono:bold"})
     rows = load()
     Path("results/charts").mkdir(parents=True, exist_ok=True)
     title = "What happened to 200 questions about 25 new research papers"
-    outcomes_chart(rows[:3], "results/charts/outcomes_second_run.png", title, height=4.0, top=0.87, bottom=0.16)
+    outcomes_chart(rows[:3], "results/charts/outcomes_second_run.png", title, height=4.3, top=0.81, bottom=0.15)
     outcomes_chart(rows, "results/charts/outcomes_combo.png", "How each approach answered the same 200 questions")
     cost_time_chart(rows)
     length_chart(rows)
