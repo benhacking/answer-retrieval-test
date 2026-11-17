@@ -1,0 +1,36 @@
+Handoff test results
+
+Haiku gave the same outcome as the main run on 193/200 questions.
+Decider blanks: main run 45, fresh run 47, the same questions in both 38.
+Spent on the added runs: Haiku $0.3404, Decider $0.0412
+
+Blanks: main run 49, fresh run 50, the same questions in both 48.
+Flash gave the same outcome as the main run on 197/200 questions and the same top quote on 195/200.
+Haiku on the fresh blanks: {'exact': 13, 'right_place': 36, 'made_up': 1}
+Spent on the fresh run: $0.1108 (Flash $0.0206, Haiku $0.0902)
+
+                                             right  not in paper  elsewhere  no answer  to Haiku  $/1,000  median s   p90 s  mean s
+Haiku only (main run)                          199             1          0          0       200    1.698      1.53    2.13    1.56
+Haiku only (fresh run)                         199             1          0          0       200    1.702      1.64    2.15    1.70
+Decider only (main run)                        155             0          0         45         0    0.206      1.31    1.92    1.38
+Decider only (fresh run)                       153             0          0         47         0    0.206      1.33    2.15    1.66
+Flash only (main run)                          149             0          2         49         0    0.103      0.48    0.68    0.53
+Flash only (fresh run)                         148             0          2         50         0    0.103      0.50    0.67    0.51
+Replay: Flash, then Haiku on blanks            197             1          2          0        49    0.538      0.53    2.18    0.92
+  the same, after the one-line check           197             0          2          1        49    0.538      0.53    2.18    0.92
+Fresh: Flash, then Haiku on blanks             197             1          2          0        50    0.554      0.56    2.52    0.99
+  the same, after the one-line check           197             0          2          1        50    0.554      0.56    2.52    0.99
+Fresh answers: Decider, then Haiku on blanks   200             0          0          0        47    0.646      1.45    3.54    2.07
+
+Cost per 1,000 = total cost of the 200 questions / 200 x 1,000.
+
+Exploratory (replay from the main run only)
+
+                                             right  not in paper  elsewhere  no answer  to Haiku  $/1,000  median s   p90 s  mean s
+Decider, then Haiku on blanks                  199             1          0          0        45    0.607      1.55    2.93    1.74
+Flash, Haiku on blanks or confidence < 0.6     197             1          2          0        55    0.601      0.54    2.21    0.96
+Flash, Haiku on blanks or confidence < 0.7     197             1          2          0        63    0.667      0.55    2.22    1.02
+Flash, Haiku on blanks or confidence < 0.8     198             1          1          0        70    0.734      0.57    2.26    1.08
+Flash, Haiku on blanks or confidence < 0.9     199             1          0          0        78    0.804      0.62    2.38    1.15
+
+Confidence of Flash's wrong-place answers in the main run: {'P21-Q8': 0.875, 'P22-Q7': 0.784}

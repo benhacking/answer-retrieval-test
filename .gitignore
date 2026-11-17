@@ -1,0 +1,29 @@
+# Secrets: never commit
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Working files, safe to delete
+.cache/
+logs/
+
+# Paper text: downloaded by src/fetch_papers.py, not ours to republish
+data/papers_text/
+
+# Write-up drafts: local only until published
+drafts/
+AGENTS.local.md
+
+# Company logos for the chart: not ours to redistribute
+assets/logos/
+
+# Cover image for the blog and social cards: not a result
+results/charts/cover.png
