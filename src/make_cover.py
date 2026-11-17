@@ -38,7 +38,7 @@ def main() -> None:
     ax.set_xlim(0, 200)
     ax.set_ylim(-0.45, 1.75)
 
-    for y, line in ((0.845, "Answer retrieval test"), (0.70, "Decider Flash v1.3 w/ Locate")):
+    for y, line in ((0.845, "Answer Retrieval with"), (0.70, "Decider Flash v1.3 Locate")):
         fig.text(0.06, y, line, fontsize=46, fontweight="bold", fontfamily="Avenir Next", color=INK, ha="left", va="center")
 
     layout = [
