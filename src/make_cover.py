@@ -38,8 +38,13 @@ def main() -> None:
     ax.set_xlim(0, 200)
     ax.set_ylim(-0.45, 1.75)
 
-    for y, line in ((0.845, "Answer Retrieval with"), (0.70, "Decider Flash v1.3 Locate")):
-        fig.text(0.06, y, line, fontsize=46, fontweight="bold", fontfamily="Avenir Next", color=INK, ha="left", va="center")
+    headline = {"fontsize": 46, "fontweight": "bold", "fontfamily": "Avenir Next", "color": INK, "ha": "left", "va": "center"}
+    fig.text(0.06, 0.845, "Answer Retrieval with", **headline)
+    side = 0.60  # logo size in inches, about the height of the headline's capitals
+    logo_ax = fig.add_axes([0.06, 0.705 - side / 6.3 / 2, side / 12, side / 6.3])
+    logo_ax.imshow(plt.imread(LOGOS / "perplexity.png"))
+    logo_ax.axis("off")
+    fig.text(0.06 + side / 12 + 0.014, 0.70, "Decider Flash v1.3 Locate", **headline)
 
     layout = [
         (1, haiku, "Claude Haiku 5.5 alone", lambda company, n: f"{n} correct"),
